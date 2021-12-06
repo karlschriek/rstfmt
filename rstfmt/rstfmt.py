@@ -456,21 +456,21 @@ class Formatters:
             chain_intersperse("", fmt_children(node, ctx.indent(3))),
         )
 
-    @staticmethod
-    def directive(node: docutils.nodes.Node, ctx: FormatContext) -> line_iterator:
-        d = node.attributes["directive"]
-        yield " ".join(chain([[f".. {d.name}::"], chain(a.split() for a in d.arguments)]))
-        # Just rely on the order being stable, hopefully.
-        for k, v in d.options.items():
-            yield f"   :{k}:" if v is None else f"   :{k}: {v}"
+    # @staticmethod
+    # def directive(node: docutils.nodes.Node, ctx: FormatContext) -> line_iterator:
+    #     d = node.attributes["directive"]
+    #     yield " ".join(chain([[f".. {d.name}::"], chain(a.split() for a in d.arguments)]))
+    #     # Just rely on the order being stable, hopefully.
+    #     for k, v in d.options.items():
+    #         yield f"   :{k}:" if v is None else f"   :{k}: {v}"
 
-        if d.raw:
-            yield from prepend_if_any("", with_spaces(3, d.content))
-        else:
-            sub_doc = parse_string("\n".join(d.content))
-            if sub_doc.children:
-                yield ""
-                yield from with_spaces(3, fmt(sub_doc, ctx.indent(3)))
+    #     if d.raw:
+    #         yield from prepend_if_any("", with_spaces(3, d.content))
+    #     else:
+    #         sub_doc = parse_string("\n".join(d.content))
+    #         if sub_doc.children:
+    #             yield ""
+    #             yield from with_spaces(3, fmt(sub_doc, ctx.indent(3)))
 
     @staticmethod
     def section(node: docutils.nodes.section, ctx: FormatContext) -> line_iterator:
